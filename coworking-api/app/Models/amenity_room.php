@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class amenity_room extends Model
+class AmenityRoom extends Pivot
 {
-    /** @use HasFactory<\Database\Factories\AmenityRoomFactory> */
-    use HasFactory;
+    public $timestamps = true;
+
+
+    protected $fillable = [
+        'amenity_id',
+        'room_id',
+    ];
 }
