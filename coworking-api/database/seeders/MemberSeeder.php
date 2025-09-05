@@ -13,7 +13,7 @@ class MemberSeeder extends Seeder
      */
         public function run()
         {
-            // Crea 10–20 miembros
+            // Crea 10–20 miembros para cada plan
             Member::factory(rand(10, 20))->create();
         }
     }

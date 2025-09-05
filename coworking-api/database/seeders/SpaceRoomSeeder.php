@@ -16,13 +16,12 @@ class SpaceRoomSeeder extends Seeder
      */
     public function run()
     {
-            // Creamos 2–3 espacios
+            // Creamos 2–3 espacios para cada espacio
     Space::factory(rand(2, 3))->create()->each(function ($space) {
-        // Cada espacio tiene 3–5 salas
+        // Cada espacio tiene 3–5 salas para reuniones
         Room::factory(rand(3, 5))->create([
             'space_id' => $space->id
         ])->each(function ($room) {
-            // Asignamos 1–3 amenidades aleatorias a cada sala
             $amenities = Amenity::inRandomOrder()->take(rand(1, 3))->pluck('id');
             $room->amenities()->attach($amenities);
         });
