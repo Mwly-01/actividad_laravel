@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Room;
 
-class Plan extends Model
+class Space extends Model
 {
     /** @use HasFactory<\Database\Factories\PlanFactory> */
     use HasFactory, SoftDeletes;
