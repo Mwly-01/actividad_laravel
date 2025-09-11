@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class AmenityRoom extends Pivot
+class Amenity_Room extends Pivot
 {
     public $timestamps = true;
 
