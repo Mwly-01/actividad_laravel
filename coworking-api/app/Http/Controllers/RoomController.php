@@ -27,10 +27,10 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoomRequest $request)
-    {
-        //
-    }
+    public function store(StoreRoomRequest $request) {
+        $room = Room::create($request->validated());
+        return response()->json($room, 201);
+      }
 
     /**
      * Display the specified resource.

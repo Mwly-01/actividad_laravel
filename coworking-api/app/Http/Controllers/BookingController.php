@@ -27,10 +27,12 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookingRequest $request)
-    {
-        //
-    }
+    public function store(StoreBookingRequest $request) {
+        $data = $request->validated();
+        // TODO: validar no-solapamiento aquí o con Rule custom
+        $booking = Booking::create($data);
+        return response()->json($booking, 201);
+      }
 
     /**
      * Display the specified resource.

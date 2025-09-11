@@ -19,10 +19,13 @@ class StoreRoomRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            //
+          'space_id'  => ['required','exists:spaces,id'],
+          'name'      => ['required','string','min:3','max:120','unique:rooms,name'],
+          'capacity'  => ['required','integer','min:1','max:200'],
+          'type'      => ['required','in:meeting,workshop,phonebooth,auditorium'],
+          'is_active' => ['boolean'],
         ];
-    }
+      }
 }
