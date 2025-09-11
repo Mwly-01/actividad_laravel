@@ -33,4 +33,5 @@ class BookingPaymentSeeder extends Seeder
 
     $maxAttemptsPerBooking=10;
     //
-} };
+} }
+;
