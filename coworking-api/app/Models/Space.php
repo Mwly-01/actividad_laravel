@@ -9,21 +9,23 @@ use App\Models\Room;
 
 class Space extends Model
 {
-    /** @use HasFactory<\Database\Factories\PlanFactory> */
+    /** @use HasFactory<\Database\Factories\SpaceFactory> */
     use HasFactory, SoftDeletes;
 
     protected $table = "spaces";
 
     protected $fillable = [
         'name',
-        'address',
+        'address'
     ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
+
     public function rooms()
     {
         return $this->hasMany(Room::class);
     }
 }
-
-
-
-

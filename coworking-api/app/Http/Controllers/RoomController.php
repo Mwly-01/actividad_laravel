@@ -4,27 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Resources\RoomResource;
+use App\Traits\ApiResponse;
 use App\Models\Room;
+use App\Models\Amenity;
 use Illuminate\Http\JsonResponse;
-use App\Http\Resources\PostResource;
-use App\Models\Post;
+use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $spaceId = $request->query('space_id');
+    
+        $query = Room::with('spaces');
+    
+        if ($spaceId) {
+            $query->where('space_id', $spaceId);
+        }
+    
+        $rooms = $query->get();
+    
+        if ($spaceId && $rooms->isEmpty()) {
+            return $this->error("No rooms found for the given space_id", 404, ['space_id' => 'No rooms found']);
+        }
+    
+        return $this->success(RoomResource::collection($rooms), "Rooms retrieved successfully");
     }
 
     /**
@@ -40,14 +49,35 @@ class RoomController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $result = Room::find($id);
-        if ($result) {
-            return $this->success(new PostResource($result), "Todo ok, como dijo el Pibe");
-        } else {
-            return $this->error("Todo mal, como NO dijo el Pibe", 404, ['id' => 'No se encontro el recurso con el id']);
+        $room = Room::with('spaces')->find($id);
+        if ($room) {
+            return $this->success(new RoomResource($room), "Room found successfully");
         }
+        
+        return $this->error("Room not found", 404, ['id' => 'No resource found with the given id']);
     }
-    
+
+    public function attachAmenity(Room $room, Amenity $amenity)
+    {
+        // Evita duplicados usando syncWithoutDetaching
+        $room->amenities()->syncWithoutDetaching([$amenity->id]);
+
+        return $this->success(
+            message: 'Amenity attached successfully.',
+            data: ['room_id' => $room->id, 'amenity_id' => $amenity->id]
+        );
+    }
+
+    public function detachAmenity(Room $room, Amenity $amenity)
+    {
+        // Elimina la relación si existe
+        $room->amenities()->detach($amenity->id);
+
+        return $this->success(
+            message: 'Amenity detached successfully.',
+            data: ['room_id' => $room->id, 'amenity_id' => $amenity->id]
+        );
+    }
 
     /**
      * Show the form for editing the specified resource.

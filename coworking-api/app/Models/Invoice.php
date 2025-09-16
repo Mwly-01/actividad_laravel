@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Payment;
 
-
 class Invoice extends Model
 {
+    /** @use HasFactory<\Database\Factories\InvoiceFactory> */
     use HasFactory, SoftDeletes;
 
     protected $table = "invoices";
@@ -17,15 +17,17 @@ class Invoice extends Model
     protected $fillable = [
         'payment_id',
         'number',
-        'issued_date',
-        'meta',
+        'ussued_date',
+        'meta'
     ];
 
     protected $casts = [
-        'meta' => 'array',
+        'published_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'meta' => 'array'
     ];
 
-    public function payment()
+    public function payments()
     {
         return $this->hasMany(Payment::class);
     }

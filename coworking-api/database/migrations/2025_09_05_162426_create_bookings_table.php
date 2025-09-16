@@ -18,9 +18,11 @@ return new class extends Migration
             $table->dateTime('start_at');
             $table->dateTime('end_at');
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
-            $table->string('purpose')->nullable();  // Reunión, Taller, etc.
+            $table->string('purpose')->nullable();
             $table->timestamps();
+
             $table->index(['room_id', 'start_at', 'end_at']);
+            $table->softDeletes();
         });
     }
 

@@ -3,15 +3,15 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Space;
+use App\Models\User;
 
-class SpaceSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Space::factory()->count(3)->create();
+        User::factory()->count(rand(5, 10))->create();
     }
 }

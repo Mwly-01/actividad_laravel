@@ -11,7 +11,7 @@ class StoreSpaceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreSpaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-        ];
+            'name'      => ['required','string','min:3','max:120','unique:spaces,name'],
+            'address'   => ['required', 'string', 'min:5', 'max:255'],
+          ];
     }
 }

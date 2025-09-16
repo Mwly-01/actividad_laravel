@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Amenity_Room extends Pivot
+class AmenityRoom extends Pivot
 {
-    public $timestamps = true;
-
+    protected $table = "amenity_room";
 
     protected $fillable = [
         'amenity_id',
-        'room_id',
+        'room_id'
     ];
 }

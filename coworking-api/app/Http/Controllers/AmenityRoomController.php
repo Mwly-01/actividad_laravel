@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Storeamenity_roomRequest;
-use App\Http\Requests\Updateamenity_roomRequest;
-use App\Models\amenity_room;
+use App\Http\Requests\StoreAmenityRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Resources\RoomResource;
+use App\Traits\ApiResponse;
+use App\Models\AmenityRoom;
+use Illuminate\Http\JsonResponse;
 
 class AmenityRoomController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +31,7 @@ class AmenityRoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Storeamenity_roomRequest $request)
+    public function store(StoreAmenity_roomRequest $request)
     {
         //
     }
@@ -35,7 +39,7 @@ class AmenityRoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(amenity_room $amenity_room)
+    public function show(Amenity_room $amenity_room)
     {
         //
     }
@@ -43,7 +47,7 @@ class AmenityRoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(amenity_room $amenity_room)
+    public function edit(Amenity_room $amenity_room)
     {
         //
     }
@@ -51,7 +55,7 @@ class AmenityRoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Updateamenity_roomRequest $request, amenity_room $amenity_room)
+    public function update(UpdateAmenity_roomRequest $request, Amenity_room $amenity_room)
     {
         //
     }
@@ -59,7 +63,7 @@ class AmenityRoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(amenity_room $amenity_room)
+    public function destroy(Amenity_room $amenity_room)
     {
         //
     }

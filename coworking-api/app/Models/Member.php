@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\User;
+use App\Models\Plan;
 use App\Models\Booking;
 
 class Member extends Model
 {
-    /** @use HasFactory<\Database\Factories\PlanFactory> */
+    /** @use HasFactory<\Database\Factories\MemberFactory> */
     use HasFactory, SoftDeletes;
 
     protected $table = "members";
@@ -22,9 +23,19 @@ class Member extends Model
         'joined_at'
     ];
 
-    public function user()
+    protected $casts = [
+        'published_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
+
+    public function users()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function plans()
+    {
+        return $this->belongsTo(Plan::class);
     }
 
     public function bookings()
@@ -32,5 +43,3 @@ class Member extends Model
         return $this->hasMany(Booking::class);
     }
 }
-
-

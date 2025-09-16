@@ -16,8 +16,9 @@ return new class extends Migration
             $table->foreignId('payment_id')->constrained()->cascadeOnDelete();
             $table->string('number', 40)->unique();
             $table->date('issued_date');
-            $table->json('meta')->nullable(); // datos extra: razón social, nit, etc.
+            $table->json('meta')->nullable(); // Datos extra: razón social, nit, etc.
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

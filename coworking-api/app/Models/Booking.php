@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Member;
 use App\Models\Room;
 use App\Models\Payment;
 
-
 class Booking extends Model
 {
+    /** @use HasFactory<\Database\Factories\BookingFactory> */
     use HasFactory, SoftDeletes;
 
     protected $table = "bookings";
@@ -23,19 +23,25 @@ class Booking extends Model
         'end_at',
         'status',
         'purpose'
-    ]; 
-    public function member()
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
+
+    public function members()
     {
         return $this->belongsTo(Member::class);
     }
 
-    public function room()
+    public function rooms()
     {
-        return $this->hasMany(Room::class);
+        return $this->belongsTo(Room::class);
     }
 
-    public function payment()
+    public function payments()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 }

@@ -3,25 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSpaceRequest;
-use App\Http\Requests\UpdateSpaceRequest;
+use App\Http\Requests\UpdateRoomRequest;
+use App\Http\Resources\SpaceResource;
+use App\Models\Room;
+use App\Traits\ApiResponse;
 use App\Models\Space;
+use Illuminate\Http\JsonResponse;
 
 class SpaceController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $spaces = Space::all(); 
+        return $this->success(SpaceResource::collection($spaces));
     }
 
     /**
@@ -29,7 +27,11 @@ class SpaceController extends Controller
      */
     public function store(StoreSpaceRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $newPost = Space::create($data);
+
+        return $this->success(new SpaceResource($newPost), 'Post creado correctamente', 201);
     }
 
     /**

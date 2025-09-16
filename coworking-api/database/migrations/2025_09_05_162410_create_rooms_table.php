@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('type', ['meeting', 'workshop', 'phonebooth', 'auditorium']);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Member;
 
-
 class Plan extends Model
 {
     /** @use HasFactory<\Database\Factories\PlanFactory> */
@@ -22,7 +21,13 @@ class Plan extends Model
         'price'
     ];
 
-    public function members() {
+    protected $casts = [
+        'published_at' => 'datetime',
+        'deleted_at' => 'datetime'
+    ];
+
+    public function members()
+    {
         return $this->hasMany(Member::class);
     }
 }
