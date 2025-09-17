@@ -35,6 +35,7 @@ class RoomController extends Controller
     
         return $this->success(RoomResource::collection($rooms), "Rooms retrieved successfully");
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -100,6 +101,37 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        // Elimina el registro de forma lógica (soft delete)
+        $room->delete();
+        return $this->success(null, 'Room eliminada (soft delete) correctamente.');
     }
-}
+    
+    public function restore(string $id)
+    {
+        // Incluye registros eliminados (withTrashed) para buscarlos
+        $room = Room::withTrashed()->find($id);
+    
+        if (!$room) {
+            return $this->error("Room no encontrada", 404, ['id' => 'No existe un recurso con el id dado']);
+        }
+    
+        // Restaura el registro
+        $room->restore();
+        return $this->success(new RoomResource($room), 'Room restaurada correctamente.');
+    }
+    
+    public function forceDelete(string $id)
+    {
+        // Incluye eliminados para poder borrarlos definitivamente
+        $room = Room::withTrashed()->find($id);
+    
+        if (!$room) {
+            return $this->error("Room no encontrada", 404, ['id' => 'No existe un recurso con el id dado']);
+        }
+    
+        // Elimina de forma permanente
+        $room->forceDelete();
+        return $this->success(null, 'Room eliminada de forma permanente.');
+    }
+
+    }

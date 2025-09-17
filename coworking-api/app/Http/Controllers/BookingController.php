@@ -18,10 +18,28 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Booking::with(['room.spaces', 'members']);
+    
+        // filtros dinámicos
+        if ($request->has('status')) {
+            $query->where('status', $request->query('status'));
+        }
+        if ($request->has('member_id')) {
+            $query->where('member_id', $request->query('member_id'));
+        }
+        if ($request->has('room_id')) {
+            $query->where('room_id', $request->query('room_id'));
+        }
+    
+        // paginación (default 10)
+        $perPage = $request->query('per_page', 10);
+        $bookings = $query->paginate($perPage);
+    
+        return $this->success($bookings, "Bookings retrieved successfully");
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -62,6 +80,32 @@ class BookingController extends Controller
      */
     public function destroy(Booking $booking)
     {
-        //
+        $booking->delete();
+        return $this->success(null, 'Booking soft deleted successfully.');
     }
+    
+    public function restore(string $id)
+    {
+        $booking = Booking::withTrashed()->find($id);
+    
+        if (!$booking) {
+            return $this->error("Booking not found", 404, ['id' => 'No resource found with the given id']);
+        }
+    
+        $booking->restore();
+        return $this->success(new BookingResource($booking), 'Booking restored successfully.');
+    }
+    
+    public function forceDelete(string $id)
+    {
+        $booking = Booking::withTrashed()->find($id);
+    
+        if (!$booking) {
+            return $this->error("Booking not found", 404, ['id' => 'No resource found with the given id']);
+        }
+    
+        $booking->forceDelete();
+        return $this->success(null, 'Booking permanently deleted.');
+    }
+    
 }
