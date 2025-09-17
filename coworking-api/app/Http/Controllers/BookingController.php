@@ -39,6 +39,7 @@ class BookingController extends Controller
     
         return $this->success($bookings, "Bookings retrieved successfully");
     }
+
     
 
     /**
