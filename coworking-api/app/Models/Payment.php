@@ -29,7 +29,7 @@ class Payment extends Model
 
     public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->belongsTo(Booking::class);
     }
 
     public function invoices()

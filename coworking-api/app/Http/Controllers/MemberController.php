@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MemberBookingResource;
 use App\Http\Requests\StoreMemberRequest;
 use App\Http\Requests\UpdateMemberRequest;
+use App\Traits\ApiResponse;
 use App\Models\Member;
+use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
     {
         //
     }
@@ -40,12 +36,14 @@ class MemberController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Member $member)
+    public function bookings(Member $member)
     {
-        //
+        $bookings = $member->bookings()->with('room')->get();
+
+        return $this->success(
+            MemberBookingResource::collection($bookings),
+            "Bookings retrieved successfully"
+        );
     }
 
     /**

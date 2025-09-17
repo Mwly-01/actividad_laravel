@@ -33,6 +33,8 @@ Route::prefix('')->group(function () {
         'invoices'  => InvoiceController::class,
     ]);
 
+    Route::get('/members/{member}/bookings', [MemberController::class, 'bookings']);
+
     // Relación amenities<->rooms (atach/detach) como endpoints específicos:
     Route::post('rooms/{room}/amenities/{amenity}', [RoomController::class,'attachAmenity']);
     Route::delete('rooms/{room}/amenities/{amenity}', [RoomController::class,'detachAmenity']);

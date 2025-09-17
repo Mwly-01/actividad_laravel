@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePaymentRequest;
-use App\Http\Requests\UpdatePaymentRequest;
+use App\Http\Resources\PaymentResource;
 use App\Models\Payment;
+use App\Traits\ApiResponse;
+use Illuminate\Http\JsonResponse;
 
 class PaymentController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
@@ -17,19 +20,24 @@ class PaymentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePaymentRequest $request)
+    public function store(StorePaymentRequest $request): JsonResponse
     {
-        //
+        // Validación hecha por el FormRequest
+        $data = $request->validated();
+
+        // Crear el pago
+        $payment = Payment::create($data);
+
+        // Cargar relaciones si las necesitas en el recurso
+        $payment->load('bookings');
+
+        return $this->success(
+            new PaymentResource($payment),
+            'Pago registrado correctamente',
+            201
+        );
     }
 
     /**

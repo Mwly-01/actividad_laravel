@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreSpaceRequest extends FormRequest
+class StoreInvoiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,10 @@ class StoreSpaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => ['required','string','min:3','max:120','unique:spaces,name'],
-            'address'   => ['required', 'string', 'min:5', 'max:255'],
+            'payment_id' =>['required','exists:payments,id'],
+            'number' =>['required','string','max:50','unique:invoices,number'],
+            'issued_date' =>['required','date'],
+            'meta' =>['nullable','array']
         ];
     }
 }

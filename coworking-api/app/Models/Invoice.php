@@ -17,7 +17,7 @@ class Invoice extends Model
     protected $fillable = [
         'payment_id',
         'number',
-        'ussued_date',
+        'issued_date',
         'meta'
     ];
 
@@ -29,6 +29,6 @@ class Invoice extends Model
 
     public function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->belongsTo(Payment::class);
     }
 }

@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInvoiceRequest;
 use App\Http\Requests\UpdateInvoiceRequest;
 use App\Models\Invoice;
+use App\Http\Resources\InvoiceResource;
+use Illuminate\Http\JsonResponse;
+use App\Models\Payment;
+use App\Traits\ApiResponse;
 
 class InvoiceController extends Controller
 {
+    use ApiResponse;
     /**
      * Display a listing of the resource.
      */
@@ -27,9 +32,19 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInvoiceRequest $request)
+    public function store(StoreInvoiceRequest $request): JsonResponse
     {
-        //
+        $data = $request->validated();
+
+        $invoices = Invoice::create($data);
+        
+        $invoices->load('payments');
+
+        return $this->success(
+            new InvoiceResource($invoices),
+            'Invoice registrado correctamente',
+            201
+        );
     }
 
     /**
